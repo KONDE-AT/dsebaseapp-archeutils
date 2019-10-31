@@ -16,11 +16,11 @@ let $col_name := request:get-parameter('col-name', 'editions')
 let $repoobject_constants := $archeutils:repoobject_constants
 let $docs := collection($app:data||"/"||$col_name)//tei:TEI[@xml:id and @xml:base]
 let $sample := subsequence($docs, $starting-at, $length)
-let $res := for $doc in $sample
-    let $xmlid := data($doc/@xml:id)
-    let $collID := data($doc/@xml:base)
+let $res := for $item in $sample
+    let $xmlid := data($item/@xml:id)
+    let $collID := data($item/@xml:base)
     let $resID := string-join(($collID, $xmlid), '/')
-    let $custom_props := archeutils:populate_tei_resource($doc)
+    let $custom_props := archeutils:populate_tei_resource($archeutils:tei_lookups, $item)
     return 
         <acdh:Resource rdf:about="{$resID}">
             <acdh:isPartOf rdf:resource="{$collID}"/>

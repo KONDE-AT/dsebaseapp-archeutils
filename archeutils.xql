@@ -38,6 +38,7 @@ declare variable $archeutils:resource_constants : = ($archeutils:repoobject_cons
 declare variable $archeutils:agents := $archeutils:constants//acdh:MetaAgents//*;
 declare variable $archeutils:collstruct := $archeutils:constants//acdh:CollStruct;
 declare variable $archeutils:tei_lookups := $archeutils:constants//acdh:TeiLookUps;
+declare variable $archeutils:person_lookups := $archeutils:constants//acdh:PersonLookUps;
 
 
 (:~
@@ -87,9 +88,9 @@ declare function archeutils:dump_collections($cols as item()+) as node()*{
  : @return ARCHE properties
 :)
 
-declare function archeutils:populate_tei_resource($doc as node()) as node()*{
+declare function archeutils:populate_tei_resource($lookup as item(), $item as node()) as node()*{
 
-for $x in $archeutils:tei_lookups/*
+for $x in $lookup/*
     let $el_name := name($x)
     let $el_xpath := $x/text()
     let $el_value := util:eval($el_xpath)
