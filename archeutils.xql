@@ -16,11 +16,6 @@ declare namespace acdh="https://vocabs.acdh.oeaw.ac.at/schema#";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace util = "http://exist-db.org/xquery/util";
 
-
-declare variable $archeutils:base_url := "https://id.acdh.oeaw.ac.at/"||$config:app-name;
-declare variable $archeutils:persons_url := $archeutils:base_url||"/persons";
-declare variable $archeutils:places_url := $archeutils:base_url||"/places";
-declare variable $archeutils:available_date := <acdh:hasAvailableDate>{current-date()}</acdh:hasAvailableDate>;
 declare variable $archeutils:constants_exist := 
     if (doc-available($app:data||'/meta/arche_constants.rdf'))
         then
@@ -33,12 +28,19 @@ declare variable $archeutils:constants :=
             doc($app:data||'/meta/arche_constants.rdf')//acdh:ACDH
         else
             <acdh:ACDH/>;
+
+
+declare variable $archeutils:base_url := $archeutils:constants//acdh:TopColl/@url||$config:app-name;
+declare variable $archeutils:persons_url := $archeutils:base_url||"/persons";
+declare variable $archeutils:places_url := $archeutils:base_url||"/places";
+declare variable $archeutils:available_date := <acdh:hasAvailableDate>{current-date()}</acdh:hasAvailableDate>;
 declare variable $archeutils:repoobject_constants : = $archeutils:constants//acdh:RepoObject/*;
 declare variable $archeutils:resource_constants : = ($archeutils:repoobject_constants, $archeutils:constants//acdh:Resource/*);
 declare variable $archeutils:agents := $archeutils:constants//acdh:MetaAgents//*;
 declare variable $archeutils:collstruct := $archeutils:constants//acdh:CollStruct;
 declare variable $archeutils:tei_lookups := $archeutils:constants//acdh:TeiLookUps;
 declare variable $archeutils:person_lookups := $archeutils:constants//acdh:PersonLookUps;
+declare variable $archeutils:place_lookups := $archeutils:constants//acdh:PlaceLookUps;
 
 
 (:~

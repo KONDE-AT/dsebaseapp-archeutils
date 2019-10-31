@@ -10,15 +10,15 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 let $starting-at := request:get-parameter('starting-at', 0)
 let $length := request:get-parameter('length', 100)
 
-let $mapping := $archeutils:person_lookups
-let $sourcedoc := doc($app:data||'/'||data($mapping/@source))//tei:body/tei:listPerson
-let $items := $sourcedoc//tei:person
+let $mapping := $archeutils:place_lookups
+let $sourcedoc := doc($app:data||'/'||data($mapping/@source))//tei:body/tei:listPlace
+let $items := $sourcedoc//tei:place
 let $res := for $item in subsequence($items, $starting-at, $length)
     let $item_probs := archeutils:populate_tei_resource($mapping, $item)
     return
-        <acdh:Person>
+        <acdh:Place>
             {$item_probs}
-        </acdh:Person>
+        </acdh:Place>
 
 let $RDF := 
     <rdf:RDF

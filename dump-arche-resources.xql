@@ -13,6 +13,9 @@ declare option exist:serialize "method=xml media-type=text/xml omit-xml-declarat
 let $starting-at := request:get-parameter('starting-at', 0)
 let $length := request:get-parameter('length', 10)
 let $col_name := request:get-parameter('col-name', 'editions')
+
+let $res_specific_props := $archeutils:constants//acdh:SpecResource[@collection=$col_name]/*
+
 let $repoobject_constants := $archeutils:repoobject_constants
 let $docs := collection($app:data||"/"||$col_name)//tei:TEI[@xml:id and @xml:base]
 let $sample := subsequence($docs, $starting-at, $length)
@@ -26,6 +29,7 @@ let $res := for $item in $sample
             <acdh:isPartOf rdf:resource="{$collID}"/>
             {$custom_props}
             {$repoobject_constants}
+            {$res_specific_props}
         </acdh:Resource>
 
 let $RDF := 
