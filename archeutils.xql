@@ -1,7 +1,7 @@
 xquery version "3.1";
 
 (:~
- : This module provides a couple of restxq functions (and some helper functions) to set ease the creation of ARCHE-RDF metadata representation
+ : This module provides a couple of variables (and some helper functions) to set ease the creation of ARCHE-RDF metadata representation
  : @author peter.andorfer@oeaw.ac.at
 :)
 
