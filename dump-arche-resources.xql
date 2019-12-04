@@ -30,6 +30,7 @@ let $res := for $item in $sample
             {$custom_props}
             {$repoobject_constants}
             {$res_specific_props}
+            {$archeutils:available_date}
         </acdh:Resource>
 
 let $RDF := 

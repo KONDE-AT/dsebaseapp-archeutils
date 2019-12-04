@@ -16,6 +16,7 @@ declare namespace acdh="https://vocabs.acdh.oeaw.ac.at/schema#";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace util = "http://exist-db.org/xquery/util";
 
+
 declare variable $archeutils:constants_exist := 
     if (doc-available($app:data||'/meta/arche_constants.rdf'))
         then
@@ -55,6 +56,7 @@ declare function archeutils:dump_collections($cols as item()+) as node()*{
         <acdh:Collection rdf:about="{$archeutils:base_url}">
             {$archeutils:collstruct//acdh:TopColl//*}
             {$archeutils:repoobject_constants}
+            {$archeutils:available_date}
         </acdh:Collection>
 
     let $childCols := 
@@ -62,8 +64,10 @@ declare function archeutils:dump_collections($cols as item()+) as node()*{
             let $col := 
                 <acdh:Collection rdf:about="{$archeutils:base_url||'/'||$x}">
                     <acdh:isPartOf rdf:resource="{$archeutils:base_url}"/>
+                    {$archeutils:available_date}
                     {$archeutils:collstruct//acdh:DataColl[@name=$x]//*}
                     {$archeutils:repoobject_constants}
+                    {$archeutils:available_date}
                 </acdh:Collection>
             where $col/acdh:hasTitle
             return
