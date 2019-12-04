@@ -103,7 +103,7 @@ for $x in $lookup/*
     let $el_type := data($x/@type)
     let $el := 
         switch ($el_type)
-        case 'date' return element {$el_name} {attribute date { $el_value }}
+        case 'date' return element {$el_name} { $el_value }
         case 'resource' return element {$el_name} {attribute rdf:resource { $el_value }}
         default return element {$el_name} {$el_value}
     where $el_value
