@@ -104,6 +104,7 @@ for $x in $lookup/*
     let $el := 
         switch ($el_type)
         case 'date' return element {$el_name} { $el_value }
+        case 'resource_many' return for $res_url in $el_value return element {$el_name} {attribute rdf:resource { $res_url }}
         case 'resource' return element {$el_name} {attribute rdf:resource { $el_value }}
         default return element {$el_name} {$el_value}
     where $el_value
