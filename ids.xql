@@ -10,19 +10,24 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare option output:method "json";
 declare option output:media-type "application/json";
 
-let $docs := collection($app:editions)//tei:TEI[@xml:id and @xml:base]
+let $col_name := request:get-parameter('col-name', 'editions')
+let $limit := request:get-parameter('limit', false())
+let $docs := collection($app:data||"/"||$col_name)//tei:TEI[@xml:id and @xml:base]
 let $arche_constants := $archeutils:app_base_url||"/archeutils/dump-arche-cols.xql"
-let $ids := for $x in subsequence($docs, 1, 10)
+let $sample := if ($limit) then subsequence($docs, 1, 10) else $docs
+let $ids := for $x in $sample
   let $filename := data($x/@xml:id)
-  let $id := $archeutils:base_url||'/editions/'||$filename
-  let $html :=  $archeutils:app_base_url||"/pages/show.html?document="||$filename||"&amp;directory=editions"
-  let $payload := $archeutils:app_base_url||"/resolver/resolve-doc.xql?doc-name="||$filename||"&amp;collection=editions"
+  let $id := $archeutils:base_url||'/'||$col_name||'/'||$filename
+  let $html :=  $archeutils:app_base_url||"/pages/show.html?document="||$filename||"&amp;directory="||$col_name
+  let $payload := $archeutils:app_base_url||"/resolver/resolve-doc.xql?doc-name="||$filename||"&amp;collection="||$col_name
+  let $md := $archeutils:app_base_url||"archeutils/md.xql?id"||$filename||"&amp;collection="||$col_name
   order by $id
   return
     <ids>
       <id>{$id}</id>
       <filename>{$filename}</filename>
       <html>{$html}</html>
+      <md>{$md}</md>
       <payload>{$payload}</payload>
     </ids>
 
