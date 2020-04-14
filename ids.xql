@@ -11,6 +11,7 @@ declare option output:method "json";
 declare option output:media-type "application/json";
 
 let $docs := collection($app:editions)//tei:TEI[@xml:id and @xml:base]
+let $arche_constants := $archeutils:app_base_url||"/archeutils/dump-arche-cols.xql"
 let $ids := for $x in subsequence($docs, 1, 10)
   let $filename := data($x/@xml:id)
   let $id := $archeutils:base_url||'/editions/'||$filename
@@ -27,7 +28,7 @@ let $ids := for $x in subsequence($docs, 1, 10)
 
 return
   <graph>
-    <arche_constants>http://127.0.1.1:8080/exist/apps/schnitzler-tagebuch/archeutils/dump-arche-cols.xql</arche_constants>
+    <arche_constants>{$arche_constants}</arche_constants>
     <id_prefix>{$archeutils:base_url}</id_prefix>
     {$ids}
   </graph>
