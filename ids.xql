@@ -20,7 +20,7 @@ let $ids := for $x in $sample
   let $id := $archeutils:base_url||'/'||$col_name||'/'||$filename
   let $html :=  $archeutils:app_base_url||"/pages/show.html?document="||$filename||"&amp;directory="||$col_name
   let $payload := $archeutils:app_base_url||"/resolver/resolve-doc.xql?doc-name="||$filename||"&amp;collection="||$col_name
-  let $md := $archeutils:app_base_url||"archeutils/md.xql?id"||$filename||"&amp;collection="||$col_name
+  let $md := $archeutils:app_base_url||"/archeutils/md.xql?id"||$filename||"&amp;collection="||$col_name
   order by $id
   return
     <ids>
