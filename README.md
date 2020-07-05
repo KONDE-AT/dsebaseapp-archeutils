@@ -8,7 +8,7 @@ The module consits of three main parts
 * several API endpoints for serialising ARCHE-RDF data
 * a single configuration file for project/resource specific data `data/meta/arche_constants.rdf`
 
-Whereas the first to parts are generic and therefore provided as reusable module, the configuration file needs to customized for each dsebaseapp-project and is therefore NOT included in this module.
+Whereas the first two parts are generic and therefore provided as reusable module, the configuration file needs to customized for each dsebaseapp-project and is therefore NOT included in this module.
 
 ## archeutils.xql
 
@@ -25,4 +25,4 @@ ARCHE RDF/XML serialisations of
 
 ## data/meta/arche_constants.rdf
 
-(Ab)usees [repo-schema](https://github.com/acdh-oeaw/repo-schema) to provide project specific data. E.g. [schnitzler-tagebuch-data/meta/arche_constants.rdf](https://github.com/acdh-oeaw/schnitzler-tagebuch-data/blob/master/meta/arche_constants.rdf)
+(Ab)uses [repo-schema](https://github.com/acdh-oeaw/repo-schema) to provide project specific data. E.g. [schnitzler-tagebuch-data/meta/arche_constants.rdf](https://github.com/acdh-oeaw/schnitzler-tagebuch-data/blob/master/meta/arche_constants.rdf)
