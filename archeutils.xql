@@ -31,14 +31,14 @@ declare variable $archeutils:constants :=
             <acdh:ACDH/>;
 
 
-declare variable $archeutils:base_url := $archeutils:constants//acdh:TopColl/@url||$config:app-name;
+declare variable $archeutils:base_url := $archeutils:constants//acdh:TopColl/@url;
 declare variable $archeutils:app_base_url := $archeutils:constants//acdh:AppBaseURL/text();
 declare variable $archeutils:persons_url := $archeutils:base_url||"/persons";
 declare variable $archeutils:places_url := $archeutils:base_url||"/places";
 declare variable $archeutils:available_date := <acdh:hasAvailableDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">{current-date()}</acdh:hasAvailableDate>;
 declare variable $archeutils:repoobject_constants : = $archeutils:constants//acdh:RepoObject/*;
 declare variable $archeutils:resource_constants : = ($archeutils:repoobject_constants, $archeutils:constants//acdh:Resource/*);
-declare variable $archeutils:agents := $archeutils:constants//acdh:MetaAgents//*;
+declare variable $archeutils:agents := $archeutils:constants//acdh:MetaAgents/*;
 declare variable $archeutils:collstruct := $archeutils:constants//acdh:CollStruct;
 declare variable $archeutils:tei_lookups := $archeutils:constants//acdh:TeiLookUps;
 declare variable $archeutils:person_lookups := $archeutils:constants//acdh:PersonLookUps;
