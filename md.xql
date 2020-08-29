@@ -11,7 +11,8 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml omit-xml-declaration=no indent=yes";
 
 let $id := request:get-parameter('id', '')
-let $col_name := request:get-parameter('col-name', 'editions')
+let $col_name := ($archeutils:constants//acdh:DataColl/data(@name))
+
 
 let $res_specific_props := $archeutils:constants//acdh:SpecResource[@collection=$col_name]/*
 

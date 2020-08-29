@@ -29,6 +29,7 @@ let $ids := for $x in $sample
       <html>{$html}</html>
       <md>{$md}</md>
       <payload>{$payload}</payload>
+      <mimetype>application/xml</mimetype>
     </ids>
 
 return
