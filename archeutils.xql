@@ -70,6 +70,10 @@ declare function archeutils:dump_collections($cols as item()+) as node()*{
                     {$archeutils:collstruct//acdh:DataColl[@name=$x]//*}
                     {$archeutils:repoobject_constants}
                     {$archeutils:available_date}
+                    {
+                        for $x in $archeutils:constants//acdh:SpecResource[@collection=$x]/*
+                        return $x
+                    }
                 </acdh:Collection>
             where $col/acdh:hasTitle
             return
