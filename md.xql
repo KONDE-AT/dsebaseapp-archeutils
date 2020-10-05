@@ -12,6 +12,7 @@ declare option exist:serialize "method=xml media-type=text/xml omit-xml-declarat
 
 let $id := request:get-parameter('id', '')
 let $col_name := request:get-parameter('collection', 'editions')
+let $custom_parent := request:get-parameter('custom-parent', false())
 
 
 let $res_specific_props := $archeutils:constants//acdh:SpecResource[@collection=$col_name]/*
@@ -23,10 +24,11 @@ let $item := collection($app:data||"/"||$col_name)/id($id)
 let $xmlid := data($item/@xml:id)
 let $collID := data($item/@xml:base)
 let $resID := string-join(($collID, $xmlid), '/')
+let $part_of := if (not($custom_parent)) then <acdh:isPartOf rdf:resource="{$collID}"/> else ()
 let $custom_props := archeutils:populate_tei_resource($archeutils:tei_lookups, $item)
 let $res :=
     <acdh:Resource rdf:about="{$resID}">
-        <acdh:isPartOf rdf:resource="{$collID}"/>
+        {$part_of}
         {$custom_props}
         {$repoobject_constants}
         {$res_specific_props}

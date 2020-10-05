@@ -13,6 +13,7 @@ declare option output:media-type "application/json";
 
 let $col_name := request:get-parameter('col-name', 'editions')
 let $limit := request:get-parameter('limit', false())
+let $custom_parent := request:get-parameter('custom-parent', false())
 let $docs := collection($app:data||"/"||$col_name)//tei:TEI[@xml:id and @xml:base]
 let $base_url := substring-before(request:get-url(), '/archeutils/ids.xql')
 let $arche_constants := $base_url||"/archeutils/dump-arche-cols.xql"
@@ -22,7 +23,7 @@ let $ids := for $x in $sample
   let $id := $archeutils:base_url||'/'||$col_name||'/'||$filename
   let $html :=  $base_url||"/pages/show.html?document="||$filename||"&amp;directory="||$col_name
   let $payload := $base_url||"/resolver/resolve-doc.xql?doc-name="||$filename||"&amp;collection="||$col_name
-  let $md := $base_url||"/archeutils/md.xql?id="||$filename||"&amp;collection="||$col_name
+  let $md := if ($custom_parent) then $base_url||"/archeutils/md.xql?id="||$filename||"&amp;collection="||$col_name||"&amp;custom-parent=true" else $base_url||"/archeutils/md.xql?id="||$filename||"&amp;collection="||$col_name
   order by $id
   return
     <ids>
