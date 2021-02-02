@@ -103,14 +103,15 @@ for $x in $lookup/*
     let $el_name := name($x)
     let $el_type := data($x/@type)
     let $el_xpath := $x/text()
-    let $el_value := if (starts-with($el_type, 'literal')) then $el_xpath else util:eval($el_xpath)
+    let $el_value := if ($el_type eq 'no_eval') then $el_xpath else util:eval($el_xpath)
     let $el :=
         switch ($el_type)
         case 'date' return element {$el_name}  {attribute rdf:datatype { "http://www.w3.org/2001/XMLSchema#date" }, $el_value }
         case 'resource_many' return for $res_url in $el_value return element {$el_name} {attribute rdf:resource { $res_url }}
         case 'resource' return element {$el_name} {attribute rdf:resource { $el_value }}
-        case 'literal_no_lang' return element {$el_name} {$el_xpath }
-        default return element {$el_name}  {attribute xml:lang { $archeutils:default_lang }, $el_xpath }
+        case 'no_eval' return element {$el_name} {$el_xpath }
+        case 'literal_no_lang' return element {$el_name} {$el_value }
+        default return element {$el_name}  {attribute xml:lang { $archeutils:default_lang }, $el_value }
     where $el_value
     return $el
 };
