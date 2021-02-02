@@ -74,6 +74,7 @@ in `arche_constants.rdf` you can basically set three types of MD
 * the element name matches an arche-schema property
 * the `@type` value can either be
   * `literal` -> the evaluated xpath expression becomes the `text()` of the element
+  * `literal_no_lang` -> the evaluated xpath expression becomes the `text()` of the element but no default lang-attribute will be set
   * `date` -> the elment get typed as date via `rdf:datatype="http://www.w3.org/2001/XMLSchema#date"`
   * `resource` -> the evaluated xpath expression is set as value for an `@rdf:resource`
   * `resource_many` -> in case the evaluated xpath expression returns a sequence, than for each item in the sequence, a new element (i.e. rdf-triple) is created
