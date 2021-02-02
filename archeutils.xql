@@ -55,11 +55,11 @@ declare variable $archeutils:default_lang := $archeutils:constants//acdh:Default
 
 declare function archeutils:dump_collections($cols as item()+) as node()*{
     let $topcol :=
-        <acdh:Collection rdf:about="{$archeutils:base_url}">
+        <acdh:TopCollection rdf:about="{$archeutils:base_url}">
             {$archeutils:collstruct//acdh:TopColl//*}
             {$archeutils:repoobject_constants}
             {$archeutils:available_date}
-        </acdh:Collection>
+        </acdh:TopCollection>
 
     let $childCols :=
         for $x in $cols
