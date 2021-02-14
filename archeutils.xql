@@ -100,6 +100,7 @@ declare function archeutils:dump_collections($cols as item()+) as node()*{
 declare function archeutils:populate_tei_resource($lookup as item(), $item as node()) as node()*{
 
 for $x in $lookup/*
+    let $lang := if (exists(data($x/@lang))) then data($x/@lang) else $archeutils:default_lang 
     let $el_name := name($x)
     let $el_type := data($x/@type)
     let $el_xpath := $x/text()
@@ -111,7 +112,7 @@ for $x in $lookup/*
         case 'resource' return element {$el_name} {attribute rdf:resource { $el_value }}
         case 'no_eval' return element {$el_name} {$el_xpath }
         case 'literal_no_lang' return element {$el_name} {$el_value }
-        default return element {$el_name}  {attribute xml:lang { $archeutils:default_lang }, $el_value }
+        default return element {$el_name}  {attribute xml:lang { $lang }, $el_value }
     where $el_value
     return $el
 };
