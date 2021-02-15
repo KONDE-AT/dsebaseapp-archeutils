@@ -34,6 +34,7 @@ declare variable $archeutils:constants :=
 declare variable $archeutils:base_url := $archeutils:constants//acdh:TopColl/@url;
 declare variable $archeutils:app_base_url := $archeutils:constants//acdh:AppBaseURL/text();
 declare variable $archeutils:persons_url := $archeutils:base_url||"/persons";
+declare variable $archeutils:entity_url := $archeutils:base_url||"/entity";
 declare variable $archeutils:places_url := $archeutils:base_url||"/places";
 declare variable $archeutils:available_date := <acdh:hasAvailableDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date">{current-date()}</acdh:hasAvailableDate>;
 declare variable $archeutils:repoobject_constants : = $archeutils:constants//acdh:RepoObject/*;
@@ -44,6 +45,27 @@ declare variable $archeutils:tei_lookups := $archeutils:constants//acdh:TeiLookU
 declare variable $archeutils:person_lookups := $archeutils:constants//acdh:PersonLookUps;
 declare variable $archeutils:place_lookups := $archeutils:constants//acdh:PlaceLookUps;
 declare variable $archeutils:default_lang := $archeutils:constants//acdh:DefaultLang/text();
+
+
+(:~
+ : looks for a norm-data URL in any <tei:idno> and returns the first on found or the project-specific id
+ : @param $item The node of the entitiy e.g. tei:place, tei:person, tei:org
+ : @return A string used as ARCHE-ID
+
+:)
+
+declare function archeutils:get_entity_id($item as node()){
+    let $default_id := concat($archeutils:entity_url, '/', data($item/@xml:id))
+    let $ids := $item//tei:idno[
+            contains(.//text(), 'd-nb.info') or
+            contains(.//text(), 'geonames') or
+            contains(.//text(), 'viaf')
+        ]/text()
+    let $result := if ($ids) then $ids else $default_id
+
+    return
+        $result
+};
 
 
 (:~
