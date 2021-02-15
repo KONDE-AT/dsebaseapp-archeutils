@@ -23,6 +23,8 @@ The XQuery module named `archeutils.xql` exposes several variables needed to cre
 
 ## API-Endpoints
 
+### `archeutils/ids.xql`
+
 The main entry point is the API-Endpoint `archeutils/ids.xql` which returns a json with the following structure:
 
 ```json
@@ -88,4 +90,98 @@ Sometimes the default eXist/dsebaseapp collection structure is not feasable for 
 BUT be aware that you'll need to provide the ARCHE-MD for those custom collections yourself and you'll need to be able to generate the matching IDs through XPATH (or custom xquery functions) called in `arche_constants.rdf`, e.g. something like:
 ```xml
 <acdh:isPartOf type="resource">concat($item/@xml:base, '/',  substring-before($item//tei:title[@type="iso-date"]/text(), '-'))</acdh:isPartOf>
+```
+
+### `archeutils/dump-arche-persons.xql?start=0&length=100`
+
+* serializes person like entites `tei:person` returns something like:
+```xml
+<rdf:RDF xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:acdh="https://vocabs.acdh.oeaw.ac.at/schema#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xml:base="https://id.acdh.oeaw.ac.at/">
+    <acdh:Person>
+        <acdh:hasIdentifier rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/abbondi-giorgio"/>
+        <acdh:hasTitle xml:lang="und">Giorgio de Abbondi</acdh:hasTitle>
+    </acdh:Person>
+    <acdh:Person>
+        <acdh:hasIdentifier rdf:resource="https://d-nb.info/gnd/118893106"/>
+        <acdh:hasTitle xml:lang="und">Abdülmecid I. (auch Abdul Mecid)</acdh:hasTitle>
+    </acdh:Person>
+    <acdh:Person>
+        <acdh:hasIdentifier rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/abraham-stefan"/>
+        <acdh:hasTitle xml:lang="und">Stefan Abraham</acdh:hasTitle>
+    </acdh:Person>
+</rdf:RDF>
+```
+
+* The actual output is derived from the mapping in `arche_constants`:
+
+```xml
+<acdh:PersonLookUps source="indices/listperson.xml">
+  <acdh:hasIdentifier type="resource_many">archeutils:get_entity_id($item)</acdh:hasIdentifier>
+  <acdh:hasTitle type="literal" lang="und">normalize-space($item/tei:persName[1]/tei:forename/text()||' '||$item/tei:persName[1]/tei:surname/text())</acdh:hasTitle>
+</acdh:PersonLookUps>
+```
+
+The function `archeutils:get_entity_id($item)` checks if there is a `tei:idno` with a textnode containing a string with `'d-nb.info'`, `'geonames'` or `'viaf'` and returns this text-node as ARCHE-ID. If not, a generic ARCHE-ID is constructed from the elements `@xml:id` 
+
+
+### `archeutils/dump-arche-places.xql?start=0&length=100`
+
+* same as for persons
+
+### archeutils/dump-arche-all-mentions.xql
+
+* serializes the resources and their mentioned entities expressed in ARCHE-RDF
+
+```xml
+<rdf:RDF xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:acdh="https://vocabs.acdh.oeaw.ac.at/schema#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xml:base="https://id.acdh.oeaw.ac.at/">
+    <acdh:Resource rdf:about="https://id.acdh.oeaw.ac.at/thun/editions/simor-an-thun-1854-12-01-a3-xxi-d296d.xml">
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/123271606"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/118757393"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/141265825"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/101780664"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/117619027"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/118594729"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/119459159"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/116016671"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/138333823"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/189010959"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/118787977"/>
+        <acdh:hasActor rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/henriques-de-carvalho-guilherme"/>
+        <acdh:hasActor rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/bonel-y-orbe-juan-jose"/>
+        <acdh:hasActor rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/kunszt-jozef"/>
+        <acdh:hasActor rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/scitovsky-jan"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/116106832"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/3169070/"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://d-nb.info/gnd/4018145-5"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/place_064b3fb95f9ed52eb2b1da3d5e807b17"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/2921044/"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://d-nb.info/gnd/4055964-6"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/719819/"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/3172395/"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/place_6f1d35d511be7a1f29234d7dda06e2dd"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/place_48e23d043764ef6b2d7d7acd9ac09860"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/4402265-7"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/1086824806"/>
+    </acdh:Resource>
+    <acdh:Resource rdf:about="https://id.acdh.oeaw.ac.at/thun/editions/memorandum-mikulas-neueinteilung-superintendenzen-1860-a3-xxi-d627.xml">
+        <acdh:hasActor rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/mikulas-johann"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/719819/"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/1086824806"/>
+    </acdh:Resource>
+    <acdh:Resource rdf:about="https://id.acdh.oeaw.ac.at/thun/editions/thun-an-ficker-1854-05-09-ca179.xml">
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/118757393"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/118532863"/>
+        <acdh:hasActor rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/scheffer-boichorst-auguste-amalia"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/119059312"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/118535013"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/2761367/"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://d-nb.info/gnd/4065781-4"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://id.acdh.oeaw.ac.at/thun/entity/place_064b3fb95f9ed52eb2b1da3d5e807b17"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/2775220/"/>
+        <acdh:hasSpatialCoverage rdf:resource="https://sws.geonames.org/2946447/"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/36150-1"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/36165-3"/>
+        <acdh:hasActor rdf:resource="http://d-nb.info/gnd/2024703-5"/>
+    </acdh:Resource>
+</rdf:RDF>
 ```
