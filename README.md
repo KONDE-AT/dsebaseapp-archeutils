@@ -13,6 +13,7 @@ Whereas the first two parts are generic and therefore provided as reusable modul
 ## install
 
 * add this repo as submodule to your dsebaseapp project
+  * `git submodule add https://github.com/KONDE-AT/dsebaseapp-archeutils.git archeutils`
 * create a document `data/meta/arche_constants.rdf`
 
 ## archeutils.xql
