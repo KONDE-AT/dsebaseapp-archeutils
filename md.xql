@@ -25,7 +25,8 @@ let $xmlid := data($item/@xml:id)
 let $collID := data($item/@xml:base)
 let $resID := string-join(($collID, $xmlid), '/')
 let $part_of := if (not($custom_parent)) then <acdh:isPartOf rdf:resource="{$collID}"/> else ()
-let $custom_props := archeutils:populate_tei_resource($archeutils:tei_lookups, $item)
+let $col_spec_mapping := $archeutils:tei_lookups[./@collection=$col_name]
+let $custom_props := archeutils:populate_tei_resource($col_spec_mapping, $item)
 let $res :=
     <acdh:Resource rdf:about="{$resID}">
         {$part_of}

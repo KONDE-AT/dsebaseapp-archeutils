@@ -74,6 +74,8 @@ in `arche_constants.rdf` you can basically set three types of MD
 
 ### Xpath mapping
 
+* the TEI Mapping needs to be done by collection, whereas the matching collection needs to be defined in the `@collection` in the `<acdh:TeiLookUps collection='name-of-collection'>` element
+
 * the element name matches an arche-schema property
 * the `@type` value can either be
   * `literal` -> the evaluated xpath expression becomes the `text()` of the element
