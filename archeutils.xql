@@ -73,7 +73,7 @@ declare function archeutils:get_entity_id($item as node()){
  : @return An ARCHE RDF describing the collections
 :)
 
-declare function archeutils:dump_collections($cols as item()+) as node()*{
+declare function archeutils:dump_collections($cols as item()*) as node()*{
     let $topcol :=
         <acdh:TopCollection rdf:about="{$archeutils:base_url}">
             {$archeutils:collstruct//acdh:TopColl//*}
