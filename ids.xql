@@ -20,7 +20,8 @@ let $arche_constants := $base_url||"/archeutils/dump-arche-cols.xql"
 let $sample := if ($limit) then subsequence($docs, 1, 10) else $docs
 let $ids := for $x in $sample
   let $filename := data($x/@xml:id)
-  let $id := $archeutils:base_url||'/'||$col_name||'/'||$filename
+  let $base := data($x/@xml:base)
+  let $id := $base||'/'||$filename
   let $html :=  $base_url||"/pages/show.html?document="||$filename||"&amp;directory="||$col_name
   let $payload := $base_url||"/resolver/resolve-doc.xql?doc-name="||$filename||"&amp;collection="||$col_name
   let $md := if ($custom_parent) then $base_url||"/archeutils/md.xql?id="||$filename||"&amp;collection="||$col_name||"&amp;custom-parent=true" else $base_url||"/archeutils/md.xql?id="||$filename||"&amp;collection="||$col_name
