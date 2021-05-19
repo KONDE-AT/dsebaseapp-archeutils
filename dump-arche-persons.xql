@@ -6,6 +6,7 @@ import module namespace app="http://www.digital-archiv.at/ns/templates" at "../m
 declare namespace acdh="https://vocabs.acdh.oeaw.ac.at/schema#";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
+declare namespace owl = "http://www.w3.org/2002/07/owl#";
 
 let $starting-at := request:get-parameter('starting-at', 0)
 let $length := request:get-parameter('length', 100)

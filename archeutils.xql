@@ -14,6 +14,7 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace acdh="https://vocabs.acdh.oeaw.ac.at/schema#";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace util = "http://exist-db.org/xquery/util";
+declare namespace owl = "http://www.w3.org/2002/07/owl#";
 
 
 declare variable $archeutils:constants_exist :=
