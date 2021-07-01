@@ -134,6 +134,6 @@ for $x in $lookup/*
         case 'no_eval' return element {$el_name} {$el_xpath }
         case 'literal_no_lang' return element {$el_name} {$el_value }
         default return element {$el_name}  {attribute xml:lang { $lang }, $el_value }
-    where $el_value
+    where $el_value[1] 
     return $el
 };
