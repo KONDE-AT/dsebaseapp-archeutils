@@ -125,7 +125,9 @@ for $x in $lookup/*
     let $el_name := name($x)
     let $el_type := data($x/@type)
     let $el_xpath := $x/text()
-    let $el_value := if ($el_type eq 'no_eval') then $el_xpath else util:eval($el_xpath)
+    let $el_value := try {
+        if ($el_type eq 'no_eval') then $el_xpath else util:eval($el_xpath)
+       } catch * {false()}
     let $el :=
         switch ($el_type)
         case 'date' return element {$el_name}  {attribute rdf:datatype { "http://www.w3.org/2001/XMLSchema#date" }, $el_value }
@@ -136,4 +138,24 @@ for $x in $lookup/*
         default return element {$el_name}  {attribute xml:lang { $lang }, $el_value }
     where $el_value[1] 
     return $el
+};
+
+(:~
+ : tries to normalize a date like string into a full date in format YYYY-MM-DD
+ :
+ : @param $date some date like string e.g. "1900" or "1900-03" or "1900-03-11"
+ : @param $start if true() the date will be normlized into 1900-01-01, if false into 1900-12-31
+ : @return the normalized year
+:)
+declare function archeutils:normalize-date($date as xs:string, $start as xs:boolean) as xs:string {
+    let $monthYear := if ($start) then ("-01", "-01-01") else ("-12", "-12-31")
+    let $normalized :=
+        if (string-length($date) eq 4)
+            then $date||$monthYear[2]
+        else if (string-length($date) eq 7)
+            then $date||$monthYear[1]
+        else if (string-length($date) eq 10)
+            then $date
+        else "1111-11-11"
+    return $normalized
 };
